@@ -1,30 +1,37 @@
 //! ex02 - Funciones y control de flujo.
 //!
-//! Lee primero `tasks/ex02.md`. Reemplaza cada `todo!()` con una implementación.
+//! Practico los conceptos de `tasks/ex02.md` con ejemplos de cuentas.
 
-/// La comisión base de una transacción, en lamports.
-///
-/// Solana cobra 5_000 lamports por firma. Esta es solo la comisión base; las
-/// comisiones de prioridad se suman por separado.
+/// Calculo la comisión base del ejercicio: 5.000 lamports por firma.
 pub fn base_fee(signatures: u64) -> u64 {
-    todo!()
+    signatures * 5_000
 }
 
-/// Suma todos los montos del slice.
-///
-/// Un slice vacío suma cero.
+/// Sumo los montos prestados; si no hay elementos, devuelvo cero.
 pub fn total(amounts: &[u64]) -> u64 {
-    todo!()
+    let mut sum = 0;
+    for amount in amounts {
+        sum += *amount;
+    }
+    sum
 }
 
-/// Cuenta cuántos montos son estrictamente mayores que `threshold`.
+/// Cuento los montos que superan el umbral.
 pub fn count_above(amounts: &[u64], threshold: u64) -> usize {
-    todo!()
+    let mut count = 0;
+    for amount in amounts {
+        if *amount > threshold {
+            count += 1;
+        }
+    }
+    count
 }
 
-/// Nunca transfieras más que el saldo.
-///
-/// Retorna el monto que realmente se puede transferir.
+/// Limito el monto al saldo disponible.
 pub fn clamp_transfer(amount: u64, balance: u64) -> u64 {
-    todo!()
+    if amount > balance {
+        balance
+    } else {
+        amount
+    }
 }

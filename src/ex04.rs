@@ -1,27 +1,33 @@
 //! ex04 - Borrowing.
 //!
-//! Lee primero `tasks/ex04.md`. Reemplaza cada `todo!()` con una implementación.
+//! Practico los conceptos de `tasks/ex04.md` con ejemplos de cuentas.
 
-/// Lee un slice de montos y retorna su suma.
-///
-/// El slice está prestado, así que quien llama conserva el ownership.
+/// Leo los montos prestados y acumulo su suma.
 pub fn total(amounts: &[u64]) -> u64 {
-    todo!()
+    let mut sum = 0;
+    for amount in amounts {
+        sum += *amount;
+    }
+    sum
 }
 
-/// Suma una comisión a un saldo a través de una referencia mutable.
-///
-/// La función no retorna nada. El valor de quien llama debe cambiar.
+/// Modifico el monto original a través de una referencia mutable.
 pub fn add_fee(amount: &mut u64, fee: u64) {
-    todo!()
+    *amount += fee;
 }
 
-/// Cuenta cuántas cuentas son escribibles (writable).
+/// Cuento las marcas verdaderas sin consumir el slice.
 pub fn count_writable(flags: &[bool]) -> usize {
-    todo!()
+    let mut count = 0;
+    for flag in flags {
+        if *flag {
+            count += 1;
+        }
+    }
+    count
 }
 
-/// Agrega una nota a un historial a través de una referencia mutable.
+/// Guardo una copia de la nota en el historial prestado.
 pub fn append_note(history: &mut Vec<String>, note: &str) {
-    todo!()
+    history.push(note.to_string());
 }
