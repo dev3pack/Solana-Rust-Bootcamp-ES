@@ -25,7 +25,7 @@ pub fn kind(ix: &Instruction) -> &'static str {
     match ix {
         Instruction::Transfer { .. } => "transfer",
         Instruction::CreateAccount { .. } => "create",
-        Instruction::Close(adress) => "close"
+        Instruction::Close(_) => "close"
     }
 }
 
@@ -36,7 +36,7 @@ pub fn lamports_moved(ix: &Instruction) -> u64 {
     match ix {
         Instruction::Transfer { lamports, .. } => *lamports,
         Instruction::CreateAccount { .. } => 0,
-        Instruction::Close(address) => 0
+        Instruction::Close(_) => 0
     }
 }
 
