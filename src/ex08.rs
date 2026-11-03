@@ -1,17 +1,17 @@
 //! ex08 - Proyecto final: una mini cuenta bancaria.
 //!
-//! Lee primero `tasks/ex08.md`. Reemplaza cada `todo!()` con una implementación.
+//! Practico los conceptos de `tasks/ex08.md` con ejemplos de cuentas.
 //! Nada de `HashMap` ni traits: solo un struct, un historial `Vec<String>` y
 //! `Result`.
 
-/// Todo lo que puede salir mal en el mini banco.
+/// Distingo los errores esperados del mini banco.
 #[derive(Debug, PartialEq)]
 pub enum BankError {
     ZeroAmount,
     InsufficientFunds { available: u64, required: u64 },
 }
 
-/// Una cuenta bancaria con un historial legible para humanos.
+/// Agrupo la titular, el saldo y el historial de la cuenta.
 #[derive(Debug, Clone, PartialEq)]
 pub struct BankAccount {
     pub owner: String,
@@ -20,30 +20,43 @@ pub struct BankAccount {
 }
 
 impl BankAccount {
-    /// Crea una cuenta con cero lamports y un historial vacío.
+    /// Creo una cuenta vacía y guardo una copia del nombre.
     pub fn new(owner: &str) -> Self {
-        todo!()
+        Self {
+            owner: owner.to_string(),
+            lamports: 0,
+            history: Vec::new(),
+        }
     }
 
-    /// Deposita lamports y lo registra en el historial.
-    ///
-    /// Retorna `BankError::ZeroAmount` para un depósito de cero. Un depósito
-    /// exitoso agrega `"deposit <amount>"` al historial.
+    /// Rechazo cero antes de sumar y registrar el depósito.
     pub fn deposit(&mut self, amount: u64) -> Result<(), BankError> {
-        todo!()
+        if amount == 0 {
+            return Err(BankError::ZeroAmount);
+        }
+        self.lamports += amount;
+        self.history.push(format!("deposit {amount}"));
+        Ok(())
     }
 
-    /// Retira lamports y lo registra en el historial.
-    ///
-    /// Retorna `BankError::ZeroAmount` para un retiro de cero. Retorna
-    /// `BankError::InsufficientFunds` cuando el saldo es insuficiente. Un retiro
-    /// exitoso agrega `"withdraw <amount>"` al historial.
+    /// Valido el retiro antes de modificar el saldo y el historial.
     pub fn withdraw(&mut self, amount: u64) -> Result<(), BankError> {
-        todo!()
+        if amount == 0 {
+            return Err(BankError::ZeroAmount);
+        }
+        if amount > self.lamports {
+            return Err(BankError::InsufficientFunds {
+                available: self.lamports,
+                required: amount,
+            });
+        }
+        self.lamports -= amount;
+        self.history.push(format!("withdraw {amount}"));
+        Ok(())
     }
 
-    /// Retorna el saldo en SOL enteros, descartando el residuo.
+    /// Consulto el saldo en SOL enteros.
     pub fn balance_in_sol(&self) -> u64 {
-        todo!()
+        self.lamports / crate::ex01::LAMPORTS_PER_SOL
     }
 }

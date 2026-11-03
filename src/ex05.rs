@@ -1,8 +1,8 @@
 //! ex05 - Structs e `impl`.
 //!
-//! Lee primero `tasks/ex05.md`. Reemplaza cada `todo!()` con una implementación.
+//! Practico los conceptos de `tasks/ex05.md` con ejemplos de cuentas.
 
-/// Una cuenta de Solana simplificada.
+/// Represento una cuenta simplificada; owner identifica al programa dueño.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Account {
     pub address: String,
@@ -11,31 +11,31 @@ pub struct Account {
 }
 
 impl Account {
-    /// Crea una cuenta con cero lamports.
-    ///
-    /// El dueño de una cuenta nueva es el programa `"system"`.
+    /// Creo una cuenta vacía cuyo programa dueño es system.
     pub fn new(address: String) -> Self {
-        todo!()
+        Self {
+            address,
+            lamports: 0,
+            owner: String::from("system"),
+        }
     }
 
-    /// Agrega lamports a la cuenta.
+    /// Sumo el depósito al saldo.
     pub fn deposit(&mut self, amount: u64) {
-        todo!()
+        self.lamports += amount;
     }
 
-    /// Retira lamports de la cuenta.
-    ///
-    /// Retorna `true` cuando el retiro fue exitoso. Retorna `false` y deja el
-    /// saldo sin cambios cuando no hay suficientes lamports.
+    /// Verifico los fondos antes de restar; si no alcanzan, devuelvo false.
     pub fn withdraw(&mut self, amount: u64) -> bool {
-        todo!()
+        if amount > self.lamports {
+            return false;
+        }
+        self.lamports -= amount;
+        true
     }
 
-    /// Retorna el saldo en SOL enteros, descartando el residuo.
-    ///
-    /// Esto es solo para mostrar. Nunca uses un número de punto flotante para
-    /// dinero.
+    /// Consulto el saldo en SOL enteros, sin modificar la cuenta.
     pub fn balance_in_sol(&self) -> u64 {
-        todo!()
+        self.lamports / crate::ex01::LAMPORTS_PER_SOL
     }
 }

@@ -1,30 +1,24 @@
 //! ex03 - Ownership.
 //!
-//! Lee primero `tasks/ex03.md`. Reemplaza cada `todo!()` con una implementación.
+//! Practico los conceptos de `tasks/ex03.md` con ejemplos de cuentas.
 
-/// Construye una etiqueta a partir del nombre de un dueño (con ownership).
-///
-/// `make_label(String::from("alice"))` debe retornar `"account:alice"`.
-/// La función toma ownership del nombre.
+/// Recibo el nombre por valor y construyo su etiqueta.
 pub fn make_label(owner: String) -> String {
-    todo!()
+    format!("account:{owner}")
 }
 
-/// Retorna una copia con ownership de un string prestado.
-///
-/// La entrada se presta con `&str`, así que quien llama conserva el ownership.
+/// Creo un String propio a partir del texto prestado.
 pub fn duplicate(text: &str) -> String {
-    todo!()
+    text.to_string()
 }
 
-/// Toma ownership del nombre de una cuenta y lo retorna junto con su longitud.
-///
-/// Quien llama no puede usar el `String` original después de esta llamada.
+/// Consulto la longitud en bytes antes de devolver el String y moverlo.
 pub fn take_and_return(account: String) -> (String, usize) {
-    todo!()
+    let length = account.len();
+    (account, length)
 }
 
-/// Consume un vector de nombres de cuentas y retorna cuántos había.
+/// Recibo el vector por valor y devuelvo su cantidad de elementos.
 pub fn consume_all(accounts: Vec<String>) -> usize {
-    todo!()
+    accounts.len()
 }

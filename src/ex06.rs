@@ -1,12 +1,8 @@
 //! ex06 - Enums y `match`.
 //!
-//! Lee primero `tasks/ex06.md`. Reemplaza cada `todo!()` con una implementación.
+//! Practico los conceptos de `tasks/ex06.md` con ejemplos de cuentas.
 
-/// Los datos que lleva una instrucción simplificada.
-///
-/// Este enum modela los *datos* de la instrucción. Las cuentas las pasa la
-/// transacción por separado, igual que una instrucción de Anchor recibe un
-/// `Context`.
+/// Represento los datos de una instrucción; las cuentas se pasan por separado.
 #[derive(Debug, Clone, PartialEq)]
 pub enum Instruction {
     Transfer {
@@ -20,22 +16,29 @@ pub enum Instruction {
     Close(String),
 }
 
-/// Retorna el tipo de instrucción: `"transfer"`, `"create"` o `"close"`.
+/// Identifico cada variante con un match exhaustivo.
 pub fn kind(ix: &Instruction) -> &'static str {
-    todo!()
+    match ix {
+        Instruction::Transfer { .. } => "transfer",
+        Instruction::CreateAccount { .. } => "create",
+        Instruction::Close(_) => "close",
+    }
 }
 
-/// Retorna cuántos lamports mueve la instrucción.
-///
-/// Solo `Transfer` mueve lamports. Todas las demás variantes retornan `0`.
+/// Leo los lamports de Transfer; en las otras variantes devuelvo cero.
 pub fn lamports_moved(ix: &Instruction) -> u64 {
-    todo!()
+    match ix {
+        Instruction::Transfer { lamports, .. } => *lamports,
+        Instruction::CreateAccount { .. } => 0,
+        Instruction::Close(_) => 0,
+    }
 }
 
-/// Retorna la cuenta que es el sujeto principal de la instrucción.
-///
-/// Para `Transfer` retorna el remitente. Para `CreateAccount` retorna la nueva
-/// dirección. Para `Close` retorna la dirección que se está cerrando.
+/// Devuelvo una referencia a la dirección guardada en la instrucción.
 pub fn account_touched(ix: &Instruction) -> &str {
-    todo!()
+    match ix {
+        Instruction::Transfer { from, .. } => from,
+        Instruction::CreateAccount { address } => address,
+        Instruction::Close(address) => address,
+    }
 }
