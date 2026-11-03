@@ -2,6 +2,8 @@
 //!
 //! Lee primero `tasks/ex05.md`. Reemplaza cada `todo!()` con una implementación.
 
+use crate::ex01::LAMPORTS_PER_SOL;
+
 /// Una cuenta de Solana simplificada.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Account {
@@ -33,11 +35,10 @@ impl Account {
     /// saldo sin cambios cuando no hay suficientes lamports.
     pub fn withdraw(&mut self, amount: u64) -> bool {
         if self.lamports < amount {
-            false
-        } else {
-            self.lamports -= amount;
-            true
+            return false;
         }
+        self.lamports -= amount;
+        true
     }
 
     /// Retorna el saldo en SOL enteros, descartando el residuo.
@@ -45,6 +46,6 @@ impl Account {
     /// Esto es solo para mostrar. Nunca uses un número de punto flotante para
     /// dinero.
     pub fn balance_in_sol(&self) -> u64 {
-        self.lamports / 1_000_000_000
+        self.lamports / LAMPORTS_PER_SOL
     }
 }
