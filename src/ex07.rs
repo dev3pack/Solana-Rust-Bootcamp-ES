@@ -17,7 +17,13 @@ pub enum TransferError {
 /// 2. `SameAccount` cuando `from == to`
 /// 3. `Ok(())` en cualquier otro caso
 pub fn validate(from: &str, to: &str, amount: u64) -> Result<(), TransferError> {
-    todo!()
+    if amount == 0 {
+        return Err(TransferError::ZeroAmount);
+    }
+    if from == to {
+        return Err(TransferError::SameAccount);
+    }
+    Ok(())
 }
 
 /// Valida una transferencia y retorna el saldo restante del remitente.
@@ -25,18 +31,21 @@ pub fn validate(from: &str, to: &str, amount: u64) -> Result<(), TransferError> 
 /// Llama primero a `validate` y propaga su error con `?`. Luego retorna
 /// `InsufficientFunds` cuando `amount > balance`. Si todo sale bien, retorna
 /// `Ok(balance - amount)`.
-pub fn transfer(
-    balance: u64,
-    from: &str,
-    to: &str,
-    amount: u64,
-) -> Result<u64, TransferError> {
-    todo!()
+pub fn transfer(balance: u64, from: &str, to: &str, amount: u64) -> Result<u64, TransferError> {
+    validate(from, to, amount)?;
+    if amount > balance {
+        return Err(TransferError::InsufficientFunds {
+            available: balance,
+            required: amount,
+        });
+    }
+    Ok(balance - amount)
 }
 
 /// Paga a través de `transfer` y propaga cualquier error con `?`.
 ///
 /// Esta función existe para mostrar la forma de una función que usa `?`.
 pub fn pay(balance: u64, from: &str, to: &str, amount: u64) -> Result<u64, TransferError> {
-    todo!()
+    let remaining = transfer(balance, from, to, amount)?;
+    Ok(remaining)
 }
