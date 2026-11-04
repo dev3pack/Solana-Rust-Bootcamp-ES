@@ -3,6 +3,7 @@
 //! Lee primero `tasks/ex08.md`. Reemplaza cada `todo!()` con una implementación.
 //! Nada de `HashMap` ni traits: solo un struct, un historial `Vec<String>` y
 //! `Result`.
+use crate::ex01::LAMPORTS_PER_SOL;
 
 /// Todo lo que puede salir mal en el mini banco.
 #[derive(Debug, PartialEq)]
@@ -22,7 +23,11 @@ pub struct BankAccount {
 impl BankAccount {
     /// Crea una cuenta con cero lamports y un historial vacío.
     pub fn new(owner: &str) -> Self {
-        todo!()
+        Self {
+            lamports: 0,
+            history: vec![],
+            owner: owner.to_string(),
+        }
     }
 
     /// Deposita lamports y lo registra en el historial.
@@ -30,7 +35,13 @@ impl BankAccount {
     /// Retorna `BankError::ZeroAmount` para un depósito de cero. Un depósito
     /// exitoso agrega `"deposit <amount>"` al historial.
     pub fn deposit(&mut self, amount: u64) -> Result<(), BankError> {
-        todo!()
+        if amount == 0 {
+            Err(BankError::ZeroAmount)
+        } else {
+            self.lamports += amount;
+            self.history.push(format!("deposit {}", amount));
+            Ok(())
+        }
     }
 
     /// Retira lamports y lo registra en el historial.
@@ -39,11 +50,22 @@ impl BankAccount {
     /// `BankError::InsufficientFunds` cuando el saldo es insuficiente. Un retiro
     /// exitoso agrega `"withdraw <amount>"` al historial.
     pub fn withdraw(&mut self, amount: u64) -> Result<(), BankError> {
-        todo!()
+        match amount {
+            0 => Err(BankError::ZeroAmount),
+            amount if amount > self.lamports => Err(BankError::InsufficientFunds {
+                available: self.lamports,
+                required: amount,
+            }),
+            _ => {
+                self.lamports -= amount;
+                self.history.push(format!("withdraw {}", amount));
+                Ok(())
+            }
+        }
     }
 
     /// Retorna el saldo en SOL enteros, descartando el residuo.
     pub fn balance_in_sol(&self) -> u64 {
-        todo!()
+        self.lamports / LAMPORTS_PER_SOL
     }
 }
