@@ -13,19 +13,19 @@ pub const LAMPORTS_PER_SOL: u64 = 1_000_000_000;
 ///
 /// `sol_to_lamports(2)` debe retornar `2_000_000_000`.
 pub fn sol_to_lamports(sol: u64) -> u64 {
-    todo!()
+    sol * LAMPORTS_PER_SOL
 }
 
 /// Convierte lamports a SOL enteros, descartando el residuo.
 ///
 /// `lamports_to_sol(2_500_000_000)` debe retornar `2`.
 pub fn lamports_to_sol(lamports: u64) -> u64 {
-    todo!()
+    lamports / LAMPORTS_PER_SOL
 }
 
 /// Suma un bono a un saldo y retorna el nuevo saldo.
 pub fn apply_bonus(balance: u64, bonus: u64) -> u64 {
-    todo!()
+    balance + bonus
 }
 
 /// Duplica un valor.
@@ -33,10 +33,12 @@ pub fn apply_bonus(balance: u64, bonus: u64) -> u64 {
 /// Usa shadowing en tu implementación: declara un nuevo `value` en lugar de
 /// mutar el parámetro.
 pub fn double(value: u64) -> u64 {
-    todo!()
+    //Shaowing = reutilizar mismo nombre de var en el scope
+    let value: u64 = value * 2;
+    value
 }
 
 /// Retorna `true` cuando el saldo es cero.
 pub fn is_empty(balance: u64) -> bool {
-    todo!()
+    balance == 0
 }
