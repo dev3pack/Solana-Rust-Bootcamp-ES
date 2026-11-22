@@ -22,14 +22,22 @@ pub enum Instruction {
 
 /// Retorna el tipo de instrucción: `"transfer"`, `"create"` o `"close"`.
 pub fn kind(ix: &Instruction) -> &'static str {
-    todo!()
+    match ix {
+        Instruction::Transfer { from, to, lamports} => "transfer",
+        Instruction::CreateAccount { address } => "create",
+        Instruction::Close(address) => "close" 
+    }
 }
 
 /// Retorna cuántos lamports mueve la instrucción.
 ///
 /// Solo `Transfer` mueve lamports. Todas las demás variantes retornan `0`.
 pub fn lamports_moved(ix: &Instruction) -> u64 {
-    todo!()
+    match ix {
+        Instruction::Transfer { from, to, lamports} => *lamports,
+        Instruction::CreateAccount { address } => 0,
+        Instruction::Close(address) => 0
+    }
 }
 
 /// Retorna la cuenta que es el sujeto principal de la instrucción.
@@ -37,5 +45,10 @@ pub fn lamports_moved(ix: &Instruction) -> u64 {
 /// Para `Transfer` retorna el remitente. Para `CreateAccount` retorna la nueva
 /// dirección. Para `Close` retorna la dirección que se está cerrando.
 pub fn account_touched(ix: &Instruction) -> &str {
-    todo!()
+    match ix {
+        Instruction::Transfer{from, to, lamports}=>from,
+        Instruction::CreateAccount{address} =>address,
+        Instruction::Close(address) => address
+    }
+
 }
